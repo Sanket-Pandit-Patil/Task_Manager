@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50 font-sans antialiased;
+    background-image:
+      radial-gradient(circle at 0 0, rgba(148, 163, 184, 0.12), transparent 55%),
+      radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.18), transparent 55%);
+    background-blend-mode: soft-light;
+  }
+}
