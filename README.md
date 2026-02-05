@@ -1,189 +1,200 @@
-## Task Manager – React + Django (Production-Ready Skeleton)
+# Task Manager – React + Django (Production-Ready)
 
-Clean, mobile-first Task Manager built with **React (Vite) + Tailwind CSS** on the frontend and **Django + Django REST Framework** on the backend.
+A clean, mobile-first Task Manager built with **React (Vite) + Tailwind CSS** on the frontend and **Django + Django REST Framework** on the backend.
 
-Users can:
-- **Add** a task
-- **View** all tasks
-- **Toggle** task completion
-- **Delete** tasks
+## Live URLs
 
-The UI is neutral, accessible, and keyboard-friendly with loading skeletons and optimistic updates for toggle/delete.
+- Frontend (Netlify): https://task-manager-sanket.netlify.app/
+- Backend API (Render): https://task-manager-p6ok.onrender.com/api
 
 ---
 
-### Tech stack
+## Features
 
-- **Frontend**
-  - React 18 (Vite)
-  - JavaScript (JSX)
-  - Tailwind CSS
-- **Backend**
-  - Python 3.10+
-  - Django 5
-  - Django REST Framework
-  - django-cors-headers
-- **Database**
-  - SQLite (local development)
+- Add new tasks
+- View all tasks
+- Mark tasks as completed
+- Delete tasks with confirmation modal
+- Toast notification on task completion
+- Mobile-first responsive UI
+- Optimistic UI updates
+- Loading skeletons and empty states
+- Keyboard-accessible controls
 
 ---
 
-### Folder structure
+## Tech Stack
 
-**Backend (`backend/`)**
-- `backend/settings.py` – Django config (REST framework, CORS, env-based settings)
-- `backend/urls.py` – includes `tasks` API under `/api/`
-- `tasks/models.py` – `Task` model (`title`, `completed`, `created_at`)
-- `tasks/serializers.py` – DRF `TaskSerializer`
-- `tasks/views.py` – DRF generic views for list/create + retrieve/update/delete
-- `tasks/urls.py` – API routes
-- `tasks/migrations/` – database migrations
-- `requirements.txt` – backend dependencies
+### Frontend
+- React 18 (Vite)
+- JavaScript (JSX)
+- Tailwind CSS
 
-**Frontend (`frontend/`)**
-- `src/main.jsx` – Vite entry
-- `src/App.jsx` – main app shell, state management, optimistic updates
-- `src/api.js` – centralized API client (`getTasks`, `createTask`, `updateTask`, `deleteTask`)
-- `src/index.css` – Tailwind base + small global tweaks
-- `src/components/`
-  - `TaskInput.jsx` – new-task input form
-  - `TaskList.jsx` – list, loading skeleton, empty state
-  - `TaskItem.jsx` – individual task row
-- `tailwind.config.js`, `postcss.config.js`, `vite.config.ts`, `package.json`
+### Backend
+- Python 3.10+
+- Django 5
+- Django REST Framework
+- django-cors-headers
+
+### Database
+- SQLite (suitable for assignment & demo)
 
 ---
 
-### API contract
+## Folder Structure
+
+### Backend (`backend/`)
+```
+backend/
+├─ manage.py
+├─ backend/
+│  ├─ settings.py
+│  ├─ urls.py
+│  └─ wsgi.py
+├─ tasks/
+│  ├─ models.py
+│  ├─ serializers.py
+│  ├─ views.py
+│  ├─ urls.py
+│  └─ migrations/
+└─ requirements.txt
+```
+
+### Frontend (`frontend/`)
+```
+frontend/
+├─ src/
+│  ├─ main.jsx
+│  ├─ App.jsx
+│  ├─ api.js
+│  ├─ index.css
+│  └─ components/
+│     ├─ TaskInput.jsx
+│     ├─ TaskList.jsx
+│     └─ TaskItem.jsx
+├─ tailwind.config.js
+├─ vite.config.js
+└─ package.json
+```
+
+---
+
+## API Endpoints
 
 Base URL (local): `http://localhost:8000/api`
 
-- `GET    /api/tasks/` – list all tasks (newest first)
-- `POST   /api/tasks/` – create a task  
-  - Body: `{ "title": "My task title" }`
-- `PATCH  /api/tasks/:id/` – update/toggle task  
-  - Example body: `{ "completed": true }`
-- `DELETE /api/tasks/:id/` – delete task
+| Method | Endpoint | Description |
+|------|---------|-------------|
+| GET | `/tasks/` | List all tasks |
+| POST | `/tasks/` | Create task |
+| PATCH | `/tasks/:id/` | Toggle / update task |
+| DELETE | `/tasks/:id/` | Delete task |
+
+Example request body:
+```json
+{ "title": "My task" }
+```
 
 All responses are JSON.
 
 ---
 
-### Environment variables
+## Environment Variables
 
-#### Backend (`backend/.env` – create from this example)
-
+### Backend (`backend/.env.example`)
 ```env
 DJANGO_SECRET_KEY=change-me
-DJANGO_DEBUG=True
+DJANGO_DEBUG=False
 DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
-CORS_ALLOWED_ORIGINS=http://localhost:5173
+CORS_ALLOW_ALL_ORIGINS=True
 ```
 
-**Note:** You should create `backend/.env.example` with the same keys when sharing this repo.
-
-#### Frontend (`frontend/.env` – optional in local dev)
-
+### Frontend (`frontend/.env.example`)
 ```env
 VITE_API_BASE_URL=http://localhost:8000/api
 ```
 
-For production, point this to your deployed backend, e.g.:
-
+Production example:
 ```env
-VITE_API_BASE_URL=https://your-backend-host.com/api
+VITE_API_BASE_URL=https://task-manager-p6ok.onrender.com/api
 ```
 
 ---
 
-### Backend – local setup
-
-Requirements: **Python 3.10+**
+## Backend – Local Setup
 
 ```bash
 cd backend
 python -m venv venv
-venv\Scripts\activate  # Windows
-
+venv\Scripts\activate   # Windows
 pip install -r requirements.txt
-
-# create .env and fill env variables as in the README
-
 python manage.py migrate
 python manage.py runserver 8000
 ```
 
-The API is now available at `http://localhost:8000/api/tasks/`.
+API runs at:
+```
+http://localhost:8000/api/tasks/
+```
 
 ---
 
-### Frontend – local setup
-
-Requirements: **Node.js (LTS)** and **npm**
+## Frontend – Local Setup
 
 ```bash
 cd frontend
 npm install
-
-# optional: create .env and override VITE_API_BASE_URL if your backend URL differs
-
 npm run dev
 ```
 
-The app runs at `http://localhost:5173` and will call the backend at `http://localhost:8000/api` by default.
+App runs at:
+```
+http://localhost:5173
+```
 
 ---
 
-### Deployment
+## Deployment
 
-#### Frontend (Netlify)
+### Frontend (Netlify)
+- Build command: `npm run build`
+- Publish directory: `dist`
+- Environment variable:
+```env
+VITE_API_BASE_URL=https://task-manager-p6ok.onrender.com/api
+```
 
-- **Build command**: `npm run build`
-- **Publish directory**: `dist`
-- **Environment variables**:
-  - `VITE_API_BASE_URL=https://your-backend-host.com/api`
-
-> Netlify will serve the static assets from the `frontend/dist` folder and the app will talk to your deployed Django backend via `VITE_API_BASE_URL`.
-
-#### Backend (Render / Railway / similar)
-
-- **Build / install**:
-  - `pip install -r requirements.txt`
-- **Start command**:
-  - `gunicorn backend.wsgi`
-- **Environment variables**:
-  - `DJANGO_SECRET_KEY=your-strong-secret`
-  - `DJANGO_DEBUG=False`
-  - `DJANGO_ALLOWED_HOSTS=your-backend-host.com`
-  - `CORS_ALLOWED_ORIGINS=https://your-frontend-netlify-domain.netlify.app`
-
-Also ensure:
-- Static files and database (or external DB) are configured per platform’s docs.
-- HTTPS is enabled via the hosting provider.
-
----
-
-### UX & behavior notes
-
-- **Mobile-first** max-width layout with a neutral, dark theme using Tailwind.
-- Clear hierarchy: header → input bar → list/empty state.
-- Completed tasks show **strike-through + reduced opacity**.
-- Smooth transitions via Tailwind classes for hover/focus states.
-- Keyboard accessible: form uses `<form>` + `<button>`, task items are buttons for toggle, delete buttons have `aria-label`s.
-- **Loading state**: skeleton rows (no spinners) while the initial list loads.
-- **Empty state**: friendly copy when there are no tasks.
-- **Error state**: non-blocking error banner in the task card.
-- **Optimistic UI** for toggle and delete:
-  - Toggle: immediately flips completion, reverts on error.
-  - Delete: removes from the list immediately, restores on error.
+### Backend (Render)
+- Build command:
+```bash
+pip install -r requirements.txt
+```
+- Start command:
+```bash
+gunicorn backend.wsgi
+```
+- Environment variables:
+```env
+DJANGO_SECRET_KEY=your-strong-secret
+DJANGO_DEBUG=False
+DJANGO_ALLOWED_HOSTS=task-manager-p6ok.onrender.com
+```
 
 ---
 
-### Assumptions
+## UX Notes
 
-- Single-user, no authentication required.
-- SQLite is sufficient for local and demo environments.
-- CORS is permissive in local development; in production you should set explicit origins via `CORS_ALLOWED_ORIGINS`.
-<<<<<<< HEAD
-should set explicit origins via `CORS_ALLOWED_ORIGINS`.
+- Mobile-first centered layout
+- Completed tasks show strike-through and reduced opacity
+- Toast notification on task completion
+- Confirmation modal before delete
+- Optimistic UI with rollback on error
+- Accessible form and buttons
 
->>>>>>> edf7b5f (docs: add project README)
+---
+
+## Assumptions
+
+- Single-user application
+- No authentication required
+- SQLite is sufficient for demo and evaluation
